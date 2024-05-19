@@ -3,7 +3,7 @@ Instructions for piping ESO chat logs to a Discord channel
 
 ## Overview
 
-This is a relatively simple process to have all of your chat logs from any source sent to a Discord channel using a web hook
+This is a relatively simple process to send all of your in-game chat logs to a Discord channel using a web hook.
 
 ## Create a Webhook
 
