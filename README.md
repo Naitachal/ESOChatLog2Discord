@@ -16,7 +16,7 @@ Download the latest installer for Cygwin from https://www.cygwin.com/
 
 The default install is to "C:\cygwin64", though I prefer installing to "C:\Users\YourUserName\cygwin64". Either will work.
 
-The packages you need to install include: curl, grep, and bash.
+The packages you need to install include: curl, grep, sh and/or bash.
 
 ## Create a Symbolic Link
 
