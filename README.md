@@ -8,7 +8,7 @@ This is a relatively simple process to send all of your in-game chat logs to a D
 ## Create a Webhook
 
 Open a Discord where you have administrative privileges (or the ability to create Integrations/Webhooks). In Server Settings, Integrations, Webhooks, create a new Webhook. Name it whatever you want, and set the channel where you want chat to be posted.
-Copy the Webhook URL and save it for later. The Webhook URL will look like this: "https://discord.com/api/webhooks/0123456789/abc-rando-mwhatever-code"
+Copy the Webhook URL and save it for later. The Webhook URL will look like this: "https://discord.com/api/webhooks/0123456789/abc-random-whatever-code"
 
 ## Install Cygwin and relevant packages
 
