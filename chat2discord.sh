@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Note that this is the Linux / Bash / sh version for those wanting to use Cygwin or who symlink their logs directory to a Linux file share.
+
 # Replace WEBHOOK_URL with the one you created on your Discord server
 WEBHOOK_URL="PASTE YOUR WEBHOOK URL HERE REPLACING THIS TEXT"
 # If running this script from the Logs directory, leave this alone. If running from elsewhere, you may need a hard path.
