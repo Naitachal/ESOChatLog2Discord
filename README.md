@@ -5,49 +5,46 @@ Instructions for piping ESO chat logs to a Discord channel
 
 This is a relatively simple process to send all of your in-game chat logs to a Discord channel using a web hook.
 
+These instructions are for PowerShell on Windows. If you will be running from a Linux system or Windows with Cygwin, see the shell script file with instructions.
+
 ## Create a Webhook
 
 Open a Discord where you have administrative privileges (or the ability to create Integrations/Webhooks). In Server Settings, Integrations, Webhooks, create a new Webhook. Name it whatever you want, and set the channel where you want chat to be posted.
-Copy the Webhook URL and save it for later. The Webhook URL will look like this: "https://discord.com/api/webhooks/0123456789/abc-random-whatever-code"
-
-## Install Cygwin and relevant packages
-
-Download the latest installer for Cygwin from https://www.cygwin.com/
-
-The default install is to "C:\cygwin64", though I prefer installing to "C:\Users\YourUserName\cygwin64". Either will work.
-
-The packages you need to install include: curl, grep, sh and/or bash.
-
-## Create a Symbolic Link
-
-Open a command prompt (cmd.exe) as Administrator by opening the start/windows menu, type CMD, then click "Run as Administrator".
-
-Change directory to your Cygwin root directory "cd C:\Users\YourUserName\cygwin".
-
-Type "mklink" and hit enter to see the list of options.
-
-If you are using Windows 11 with Onedrive enabled, the command you likely want to use from the Cygwin root directory is,
-
-"mklink /D "c:\users\YourUserName\OneDrive\Documents\Elder Scrolls Online\live\Logs" esologs"
-
-If you don't user Onedrive, remove "\Onedrive" from the path.
 
 ## Edit the Script
 
-Download the chat2discord.sh script and edit the line of the WEBHOOK_URL for the one you created earlier.
+Copy the Webhook URL and paste it into the below code replacing the example link. The Webhook URL will look like this: "https://discord.com/api/webhooks/0123456789/abc-random-whatever-code"
 
-Each type of chat, zone, guild1 through guild5, say, yell, whisper, etc. will each have a different code number. Zone is 31 as far as I've seen to date, so the default script you can download here has grep " 31," to filter out any chat that is not code 31 (zone). If you'd like to send other types of chat to Discord, then just look at your ChatLog.log file and change 31 to whatever number is associated with the type of chat you want.
+When you open PowerShell, it will probably show you your user name on the command line. You can use the ```pwd``` command to show the current directory (which will likely include your username). Replace "YOURUSERNAME" in the code below with it.
+
+```
+$hookUrl = 'https://discord.com/api/webhooks/0123456789/abc-random-whatever-code'
+$logFile = 'C:\Users\YOURUSERNAME\Documents\Elder Scrolls Online\live\logs\ChatLog.log'
+
+Get-Content $logFile -Wait -Tail 1 |
+Select-String ' 31,' |
+ForEach-Object {
+Start-Sleep -Seconds 1
+$curContents = $_
+$curPayload = $null
+$curPayload = [PSCustomObject]@{
+content = ($curContents | Out-String)
+}
+
+Write-Host "Payload:"
+Write-Host ($curPayload.content | Out-String)
+Invoke-RestMethod -Uri $hookUrl -Body ($curPayload | ConvertTo-Json -Depth 4) -ContentType 'Application/Json' -Method Post
+}
+```
+
+Note that each type of chat, zone, guild1 through guild5, say, yell, whisper, etc. will each have a different code number. Zone is 31 as far as I've seen to date, so the default script you can see / download here has ' 31,' to filter out any chat that is not code 31 (zone). If you'd like to send other types of chat to Discord, then just look at your ChatLog.log file and change 31 to whatever number is associated with the type of chat you want.
 
 ## Run the Script
 
-From within the game, type /chatlog on the text input (chat) line. You'll see a system message letting you know that chats are now being logged to a file ChatLog.log
+From within the game, type ```/chatlog``` on the text input (chat) line. You'll see a system message letting you know that chats are now being logged to a file ChatLog.log
 
-Open a Cygwin shell (it should be on the Windows/Start menu as "Cygwin64 Terminal"
+In your PowerShell window, copy paste the above code, hit enter, and you should see a copy of each line that gets sent to Discord.
 
-Change directory (cd) to your Logs directory with cd "c:\users\YourUserName\OneDrive\Documents\Elder Scrolls Online\live\Logs" or using the symbolic link added earlier cd "c:\users\YourUserName\cygwin64\esologs"
-
-Run "sh chat2discord.sh"
-
-When your gaming session is done, hit ctrl-c to cancel the script.
+When your gaming session is done, hit ctrl-c in the PowerShell window to cancel the script, and the next time you want to run it, you may be able to simply hit the up arrow key in a new PowerShell window and the script will be there already.
 
 Enjoy!
