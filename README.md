@@ -1,5 +1,5 @@
 # ESOChatLog2Discord
-Instructions for piping ESO chat logs to a Discord channel
+Instructions for piping ESO chat logs to a Discord channel with no need to install any applications or complex code.
 
 ## Overview
 
