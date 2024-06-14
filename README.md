@@ -23,15 +23,15 @@ $logFile = 'C:\Users\YOURUSERNAME\Documents\Elder Scrolls Online\live\logs\ChatL
 
 Get-Content $logFile -Wait -Tail 1 |
 Select-String ' 31,' |
+Foreach { $_ -replace "-05:00 31,", " - " } |
 ForEach-Object {
 Start-Sleep -Seconds 1
 $curContents = $_
 $curPayload = $null
 $curPayload = [PSCustomObject]@{
-content = ($curContents | Out-String)
+content = ($curContents.SubString(11) | Out-String)
 }
 
-Write-Host "Payload:"
 Write-Host ($curPayload.content | Out-String)
 Invoke-RestMethod -Uri $hookUrl -Body ($curPayload | ConvertTo-Json -Depth 4) -ContentType 'Application/Json' -Method Post
 }
