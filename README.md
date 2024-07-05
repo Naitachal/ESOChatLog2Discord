@@ -17,7 +17,7 @@ Copy the Webhook URL and paste it into the below code replacing the example link
 
 ```
 $hookUrl = 'https://discord.com/api/webhooks/0123456789/abc-random-whatever-code'
-$logFile = 'C:\Users\$Env:UserName\Documents\Elder Scrolls Online\live\logs\ChatLog.log'
+$logFile = 'C:\Users\$Env:UserName\OneDrive\Documents\Elder Scrolls Online\live\logs\ChatLog.log'
 
 Get-Content $logFile -Wait -Tail 1 |
 Select-String ' 31,' |
@@ -35,17 +35,17 @@ Invoke-RestMethod -Uri $hookUrl -Body ($curPayload | ConvertTo-Json -Depth 4) -C
 }
 ```
 
-If you use OneDrive, you'll need to change the $logFile line to the following to include \OneDrive
+If you don't use OneDrive, change the $logFile line to remove "\OneDrive".
 
-```$logFile = 'C:\Users\$Env:UserName\OneDrive\Documents\Elder Scrolls Online\live\logs\ChatLog.log'```
+```$logFile = 'C:\Users\$Env:UserName\Documents\Elder Scrolls Online\live\logs\ChatLog.log'```
 
-Each type of chat, zone, guild1 through guild5, say, yell, whisper, etc. will each have a different code number. Zone is 31 as far as I've seen to date, so the default script you can see / download here has ' 31,' to filter out any chat that is not code 31 (zone). If you'd like to send other types of chat to Discord, then just look at your ChatLog.log file and change 31 to whatever number is associated with the type of chat you want.
+Each type of chat; /zone, /guild1 through /guild5, /officer1 through /officer5, /say, /yell, /pst, etc. will each have a different code number. Zone is 31, so if you'd like to send other types of chat to Discord, then just look at your ChatLog.log file and change 31 to whatever number is associated with the type of chat you want.
 
 ## Run the Script
 
 From within the game, type ```/chatlog``` on the text input (chat) line. You'll see a system message letting you know that chats are now being logged to a file ChatLog.log
 
-In your PowerShell window, copy paste the above code, hit enter, and you should see a copy of each line that gets sent to Discord.
+In your PowerShell window, copy paste the code, hit enter, and you should see a copy of each line that gets sent to Discord.
 
 When your gaming session is done, hit ctrl-c in the PowerShell window to cancel the script, and the next time you want to run it, you may be able to simply hit the up arrow key in a new PowerShell window and the script will be there already.
 
