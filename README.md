@@ -15,11 +15,9 @@ Open a Discord where you have administrative privileges (or the ability to creat
 
 Copy the Webhook URL and paste it into the below code replacing the example link. The Webhook URL will look like this: "https://discord.com/api/webhooks/0123456789/abc-random-whatever-code"
 
-When you open PowerShell, it will probably show you your user name on the command line. You can use the ```pwd``` command to show the current directory (which will likely include your username). Replace "YOURUSERNAME" in the code below with it.
-
 ```
 $hookUrl = 'https://discord.com/api/webhooks/0123456789/abc-random-whatever-code'
-$logFile = 'C:\Users\YOURUSERNAME\Documents\Elder Scrolls Online\live\logs\ChatLog.log'
+$logFile = 'C:\Users\$Env:UserName\Documents\Elder Scrolls Online\live\logs\ChatLog.log'
 
 Get-Content $logFile -Wait -Tail 1 |
 Select-String ' 31,' |
@@ -37,7 +35,10 @@ Invoke-RestMethod -Uri $hookUrl -Body ($curPayload | ConvertTo-Json -Depth 4) -C
 }
 ```
 
-Note that each type of chat, zone, guild1 through guild5, say, yell, whisper, etc. will each have a different code number. Zone is 31 as far as I've seen to date, so the default script you can see / download here has ' 31,' to filter out any chat that is not code 31 (zone). If you'd like to send other types of chat to Discord, then just look at your ChatLog.log file and change 31 to whatever number is associated with the type of chat you want.
+If you use OneDrive, you'll need to change the $logFile location to 
+```C:\Users\$Env:UserName\OneDrive\Documents\Elder Scrolls Online\live\logs\ChatLog.log```
+
+Each type of chat, zone, guild1 through guild5, say, yell, whisper, etc. will each have a different code number. Zone is 31 as far as I've seen to date, so the default script you can see / download here has ' 31,' to filter out any chat that is not code 31 (zone). If you'd like to send other types of chat to Discord, then just look at your ChatLog.log file and change 31 to whatever number is associated with the type of chat you want.
 
 ## Run the Script
 
