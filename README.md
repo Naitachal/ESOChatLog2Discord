@@ -36,6 +36,7 @@ Invoke-RestMethod -Uri $hookUrl -Body ($curPayload | ConvertTo-Json -Depth 4) -C
 ```
 
 If you use OneDrive, you'll need to change the $logFile location to
+
 ```C:\Users\$Env:UserName\OneDrive\Documents\Elder Scrolls Online\live\logs\ChatLog.log```
 
 Each type of chat, zone, guild1 through guild5, say, yell, whisper, etc. will each have a different code number. Zone is 31 as far as I've seen to date, so the default script you can see / download here has ' 31,' to filter out any chat that is not code 31 (zone). If you'd like to send other types of chat to Discord, then just look at your ChatLog.log file and change 31 to whatever number is associated with the type of chat you want.
